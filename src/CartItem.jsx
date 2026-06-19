@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { removeItem, updateQuantity } from './CartSlice';
+import { useNavigate } from 'react-router-dom';
 import './CartItem.css';
 
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
@@ -16,6 +18,8 @@ const CartItem = ({ onContinueShopping }) => {
     e.preventDefault();
     if (onContinueShopping) {
       onContinueShopping();
+    } else {
+      navigate('/products'); // adjust route to your product listing page
     }
   };
 
@@ -36,6 +40,10 @@ const CartItem = ({ onContinueShopping }) => {
   // calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
     return item.cost * item.quantity;
+  };
+
+  const handleCheckout = () => {
+    alert("Checkout feature coming soon!");
   };
 
   return (
@@ -59,7 +67,7 @@ const CartItem = ({ onContinueShopping }) => {
       ))}
       <div style={{ marginTop: '20px', color: 'black' }} className="total_cart_amount"></div>
       <button className="continue_shopping_btn" onClick={handleContinueShopping}>Continue Shopping</button>
-      <button className="get-started-button">Checkout</button>
+      <button className="get-started-button" onClick={handleCheckout}>Checkout</button>
     </div>
   );
 };
